@@ -13,7 +13,7 @@ class Text(models.Model):
     title = models.CharField('tytuł', max_length=200)
     publication_statement = models.CharField(max_length=1000)
     source_description = models.CharField('opis źródła', max_length=1000)
-    language = models.CharField(choices=Languages.choices, max_length=3)
+    language = models.CharField('język', choices=Languages.choices, max_length=3)
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='data utworzenia')
 
