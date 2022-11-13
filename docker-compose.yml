@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:14
+    env_file:
+      - .env
+    volumes:
+      - ./shared/postgresql:/var/lib/postgresql/data
+    environment:
+      # set `${PGDATA}` to a subfolder because postgresql needs this folder to
+      # be empty and we have a `.gitkeep` file there
+      - PGDATA=/var/lib/postgresql/data/pgdata
