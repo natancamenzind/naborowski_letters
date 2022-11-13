@@ -9,6 +9,8 @@ psycopg2 = "*"
 flake8 = "*"
 django-environ = "*"
 gunicorn = "*"
+beautifulsoup4 = "*"
+lxml = "*"
 
 [dev-packages]
 

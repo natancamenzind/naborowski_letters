@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng " type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng " type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>List Daniela Naborowskiego – przykładowy</title>
+         </titleStmt>
+         <publicationStmt>
+            <p>Publication Information</p>
+         </publicationStmt>
+         <sourceDesc>
+            <p>AGAD, V/10194-1, nr 11, s. 21–24</p>
+         </sourceDesc>
+      </fileDesc>
+      <profileDesc>
+         <langUsage>
+            <language ident="pl">polski</language>
+         </langUsage>
+         <correspDesc>
+            <correspAction type="sent">
+               <persName key="Daniel Naborowski"
+                     ><forename>Daniel</forename><surname>Naborowski</surname></persName>
+               <settlement key="Berlin" ref="https://www.geonames.org/2950159/berlin.html">Berlin</settlement>
+               <date when="1619-07-23">23.07.1619</date>
+            </correspAction>
+            <correspAction type="received">
+               <persName key="Krzysztof Radziwiłł"
+                     ><forename>Krzysztof</forename><surname>Radziwiłł</surname></persName>
+            </correspAction>
+         </correspDesc>
+      </profileDesc>
+
+
+
+
+   </teiHeader>
+
+   <text>
+      <body>
+         <div type="letter">
+            <opener>
+               <address>
+                  <addrLine> Oswiecone[m]u xiążęciu a mnie wielce M[iłoś]ciwemu Panu a Panu Je[g]o X
+                     M[iłoś]ci Panu <name type="person" role="receiver" key="Krzysztof Radziwiłł"
+                           ><forename>Chrzysztophowi</forename><surname>Radziwiłowi</surname></name>
+                     Xiążęciu na Byrżach i Dubinkach etc etc me[m]u M[iłościwem]u Panu nalezy
+                  </addrLine>
+               </address>
+             
+               <salute> Oswiecone Xiążę Panie a Panie mnie wielce <abbr>M[i]ł[oś]ciwy</abbr> etc.
+               </salute>
+            </opener>
+            <p n="1">Aczem barzo zatrudniony na tym odprawianiu posłow cudzoziemskich iednakze
+               powinnosci swey dosyć czyniąc za tą occasią odiazdu Je[g]o M[iłoś]ci Pana woiewodzica
+               do Litwy to co pewne wiem o odiezdzie X[iążęcia] Je[g]o M[iłości] WXM me[m]u
+               M[iłościwem]u Panu oznaymuię że 22 tego stąd koniecznie 8ri odiechać u nic go tu nie
+               trzyma tylko odprawa posazna ktora się ieszcze wyklwać nie może. Zgoła prze[nę] za
+               pewne dabog tusz <date notAfter="1613-09-29">przed S[więtym] Michałem</date> iako ceduie [...] <date when="1613-09-15">in medio 7bre</date> nam być
+               dabog w wilnie. </p>
+            <p n="2"> Goscie iusz się roziechali y <persName key="Filip II Gryfita" >xiążę pomorskie</persName>, ktory ma w drodze X J M potkać y
+               prowadzić, aż do <placeName key="Wilno" ref="https://www.geonames.org/593116/vilnius.html">wilna</placeName> list od nie[g]o WXM memu m[iłościwem]u Panu. Xiązę margraf
+               <persName key="Christian von Brandenburg-Kulmbach">Chrestian z <placeName key="Kulmbach" ref="https://www.geonames.org/2882588/kulmbach.html">Culmbachu</placeName></persName> dzis odiezdza posel Angielskie[g]o y Landgrafow iutro. </p>
+            <closer>
+               <salute>Inszych nowin nie maiąc Pana Boga za dobre zdrowie i fortunne panowanie WXM Pana me[g]o M[ilościweg]o proszę.</salute>
+               <dateline>Z <placeName key="Berlin" ref="https://www.geonames.org/2950159/berlin.html">Berlina</placeName> <date when="1613-07-23">23 Julii 1613</date>.</dateline>
+               <signed>WXM me[g]o wielce M[iłościweg]o Pana a Pana
+                  naynizszy sluga
+                  <persName key="Daniel Naborowski">Naborowski</persName>mpp
+               </signed>
+            </closer>
+         </div>
+      </body>
+   </text>
+</TEI>
