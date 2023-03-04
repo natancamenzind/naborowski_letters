@@ -6,8 +6,8 @@ from persons.constants import Role
 
 class Person(models.Model):
     key = models.CharField('klucz', max_length=50, unique=True)
-    first_name = models.CharField('imie', max_length=50)
-    last_name = models.CharField('naziwsko', max_length=50)
+    first_name = models.CharField('imie', max_length=50, default='', blank=True)
+    last_name = models.CharField('naziwsko', max_length=50, default='', blank=True)
     altered_names = TaggableManager('inne imiona')
     date_of_birth_start = models.DateField(
         'data narodzin, początek',
@@ -35,13 +35,23 @@ class Person(models.Model):
         verbose_name_plural = 'Osoby'
 
     def __str__(self) -> str:
-        return f'{self.first_name} {self.last_name}'
+        return self.key
 
 
 class TextAppearance(models.Model):
-    text = models.ForeignKey('texts.Text', on_delete=models.CASCADE, verbose_name='tekst')
-    person = models.ForeignKey(Person, on_delete=models.CASCADE, verbose_name='osoba')
+    text = models.ForeignKey(
+        'texts.Text',
+        on_delete=models.CASCADE,
+        verbose_name='tekst',
+        related_name='appearances',
+    )
+    person = models.ForeignKey(
+        Person,
+        on_delete=models.CASCADE,
+        verbose_name='osoba',
+        related_name='appearances',
+    )
     role = models.PositiveSmallIntegerField(choices=Role.choices)
 
     def __str__(self) -> str:
-        return f'{self.person} w "{self.text.title}" ({self.get_role_display()})'
+        return f'{self.person.key} w "{self.text.title}" ({self.get_role_display()})'

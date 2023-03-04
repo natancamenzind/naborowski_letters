@@ -1,6 +1,7 @@
 from django.core.validators import FileExtensionValidator
 from django.db import models
 
+from persons.constants import Role
 from texts.constants import Languages
 
 
@@ -23,3 +24,11 @@ class Text(models.Model):
 
     def __str__(self) -> str:
         return f'{self.title} ({self.file.name})'
+
+    @property
+    def author(self):
+        return self.appearances.filter(role=Role.AUTHOR).first()
+
+    @property
+    def receiver(self):
+        return self.appearances.filter(role=Role.RECEIVER).first()
