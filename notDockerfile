@@ -11,7 +11,7 @@ ENV LC_ALL C.UTF-8
 # Create a working directory for the django project
 WORKDIR /code
 
-FROM base AS python-deps
+#FROM base AS python-deps
 # install dependencies
 RUN pip install --upgrade pip
 RUN pip install pipenv
@@ -23,13 +23,15 @@ COPY Pipfile.lock .
 COPY .env .
 RUN PIPENV_VENV_IN_PROJECT=1 pipenv install
 
-FROM base AS runtime
+#FROM base AS runtime
 
 # Create and switch to a new user
 RUN useradd --create-home appuser
 USER appuser
 
 COPY . .
+
+CMD pipenv shell
 
 CMD python manage.py collectstatic --noinput
 CMD python manage.py migrate --noinput
