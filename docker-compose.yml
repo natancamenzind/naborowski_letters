@@ -1,5 +1,18 @@
 version: '3.8'
 services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SECRET_KEY=dupa11
+      - DATABASE_URL=psql://postgres:postgres@db:5432/postgres
+      - DJANGO_DEBUG=True
+    depends_on:
+      - db
   db:
     image: postgres:14
     env_file:
@@ -10,3 +23,5 @@ services:
       # set `${PGDATA}` to a subfolder because postgresql needs this folder to
       # be empty and we have a `.gitkeep` file there
       - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_DB=db
+      - POSTGRES_PASSWORD=postgres
