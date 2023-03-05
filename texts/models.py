@@ -1,7 +1,8 @@
 from django.core.validators import FileExtensionValidator
 from django.db import models
 
-from persons.constants import Role
+from persons.constants import PersonRole
+from places.constants import PlaceRole
 from texts.constants import Languages
 
 
@@ -27,8 +28,20 @@ class Text(models.Model):
 
     @property
     def author(self):
-        return self.appearances.filter(role=Role.AUTHOR).first()
+        author_appearance = self.appearing_persons.filter(role=PersonRole.AUTHOR).first()
+        if author_appearance:
+            return author_appearance.person
 
     @property
     def receiver(self):
-        return self.appearances.filter(role=Role.RECEIVER).first()
+        receiver_appearance = self.appearing_persons.filter(role=PersonRole.RECEIVER).first()
+        if receiver_appearance:
+            return receiver_appearance.person
+
+    @property
+    def send_from(self):
+        return self.appearing_places.filter(role=PlaceRole.SEND_FROM).first()
+
+    @property
+    def receive_in(self):
+        return self.appearing_places.filter(role=PlaceRole.RECEIVED_IN).first()

@@ -1,15 +1,13 @@
-from typing import Dict
-
 from bs4 import BeautifulSoup
 
-from persons.constants import Role
-from persons.models import Person, TextAppearance
+from persons.constants import PersonRole
+from persons.models import Person, PersonTextAppearance
 
 
 class PersonXmlParser:
     ROLE_MAP = {
-        Role.AUTHOR: 'sent',
-        Role.RECEIVER: 'received',
+        PersonRole.AUTHOR: 'sent',
+        PersonRole.RECEIVER: 'received',
     }
 
     def __init__(self, file_soup: BeautifulSoup) -> None:
@@ -19,36 +17,28 @@ class PersonXmlParser:
         self.mentions = self.get_mentions()
 
     def create_text_appearances(self, text):
-        all_persons_dict = self.get_all_persons_dict()
-        TextAppearance.objects.create(
+        PersonTextAppearance.objects.create(
             text=text,
-            person=all_persons_dict.get(Role.AUTHOR),
-            role=Role.AUTHOR,
+            person=self.author,
+            role=PersonRole.AUTHOR,
         )
-        TextAppearance.objects.create(
+        PersonTextAppearance.objects.create(
             text=text,
-            person=all_persons_dict.get(Role.RECEIVER),
-            role=Role.RECEIVER,
+            person=self.receiver,
+            role=PersonRole.RECEIVER,
         )
         for mentioned_person in self.mentions:
-            TextAppearance.objects.create(
+            PersonTextAppearance.objects.create(
                 text=text,
                 person=mentioned_person,
-                role=Role.MENTION,
+                role=PersonRole.MENTION,
             )
 
-    def get_all_persons_dict(self) -> Dict:
-        return {
-            Role.AUTHOR: self.author,
-            Role.RECEIVER: self.receiver,
-            Role.MENTION: self.mentions,
-        }
-
     def get_author(self) -> Person:
-        return self.get_person(Role.AUTHOR)
+        return self._get_person(PersonRole.AUTHOR)
 
     def get_receiver(self) -> Person:
-        return self.get_person(Role.RECEIVER)
+        return self._get_person(PersonRole.RECEIVER)
 
     def parse_person(self, person_data) -> Person:
         person, _ = Person.objects.get_or_create(
@@ -63,7 +53,7 @@ class PersonXmlParser:
         person.altered_names.add(person_data.get_text())
         return person
 
-    def get_person(self, role: Role) -> Person:
+    def _get_person(self, role: PersonRole) -> Person:
         person_data = self.soup.select_one(
             f'correspAction[type="{self.ROLE_MAP.get(role)}"] persName'
         )

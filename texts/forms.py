@@ -2,6 +2,7 @@ from django import forms
 from django.core.validators import FileExtensionValidator
 
 from persons.services.person_xml_parser import PersonXmlParser
+from places.services.places_xml_parser import PlacesXMLParser
 from texts.models import Text
 from texts.services.xml_reader import XMLReader
 
@@ -23,4 +24,5 @@ class XmlFileForm(forms.ModelForm):
         instance = super().save(commit=False)
         instance.save()
         PersonXmlParser(reader.soup).create_text_appearances(instance)
+        PlacesXMLParser(reader.soup).create_text_appearances(instance)
         return instance

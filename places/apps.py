@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
 
-class TextsConfig(AppConfig):
+class PlacesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'texts'
-    verbose_name = 'Teksty'
+    name = 'places'
+    verbose_name = 'Miejsca'

@@ -1,7 +1,7 @@
 from django.db import models
 from taggit.managers import TaggableManager
 
-from persons.constants import Role
+from persons.constants import PersonRole
 
 
 class Person(models.Model):
@@ -28,7 +28,7 @@ class Person(models.Model):
         max_length=50,
     )
     description = models.TextField('opis', blank=True, default='')
-    appearance = models.ManyToManyField('texts.Text', through='TextAppearance')
+    appearance = models.ManyToManyField('texts.Text', through='PersonTextAppearance')
 
     class Meta:
         verbose_name = 'Osoba'
@@ -38,20 +38,24 @@ class Person(models.Model):
         return self.key
 
 
-class TextAppearance(models.Model):
+class PersonTextAppearance(models.Model):
     text = models.ForeignKey(
         'texts.Text',
         on_delete=models.CASCADE,
         verbose_name='tekst',
-        related_name='appearances',
+        related_name='appearing_persons',
     )
     person = models.ForeignKey(
         Person,
         on_delete=models.CASCADE,
         verbose_name='osoba',
-        related_name='appearances',
+        related_name='text_appearances',
     )
-    role = models.PositiveSmallIntegerField(choices=Role.choices)
+    role = models.PositiveSmallIntegerField(choices=PersonRole.choices)
+
+    class Meta:
+        verbose_name = 'Osoba wystepujące w tekście'
+        verbose_name_plural = 'Osoby wystepujące w tekście'
 
     def __str__(self) -> str:
         return f'{self.person.key} w "{self.text.title}" ({self.get_role_display()})'

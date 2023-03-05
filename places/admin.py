@@ -1,12 +1,12 @@
 from django.contrib import admin
 
-from persons.models import Person, PersonTextAppearance
+from places.models import PlaceTextAppearance, Place
 
 
-@admin.register(Person)
-class PersonAdmin(admin.ModelAdmin):
+@admin.register(Place)
+class PlaceAdmin(admin.ModelAdmin):
     list_display = (
-        'key', 'first_name', 'last_name', 'altered_names_list', 'life_range_display'
+        'key', 'altered_names_list',
     )
 
     def get_queryset(self, request):
@@ -16,10 +16,10 @@ class PersonAdmin(admin.ModelAdmin):
         return ", ".join(o.name for o in obj.altered_names.all())
 
 
-class PersonTextAppearanceInline(admin.TabularInline):
-    model = PersonTextAppearance
+class PlaceTextAppearanceInline(admin.TabularInline):
+    model = PlaceTextAppearance
     fields = (
-        'person',
+        'place',
         'role',
     )
 
