@@ -14,6 +14,7 @@ beautifulsoup4 = "*"
 lxml = "*"
 django-taggit = "*"
 django_extensions = "*"
+whitenoise = "*"
 
 [dev-packages]
 

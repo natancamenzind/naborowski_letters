@@ -9,6 +9,10 @@ from texts.models import Text
 @admin.register(Text)
 class TextAdmin(admin.ModelAdmin):
     list_display = ('title', 'created_at', 'file', 'author', 'receiver')
+    list_filter = (
+        'language',
+    )
+    search_fields = ('title',)
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
