@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
+django = "==4.1"
 psycopg2 = "*"
 flake8 = "*"
 django-environ = "*"
@@ -15,6 +15,7 @@ lxml = "*"
 django-taggit = "*"
 django_extensions = "*"
 whitenoise = "*"
+nltk = "*"
 
 [dev-packages]
 

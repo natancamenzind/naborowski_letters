@@ -3,25 +3,34 @@ from django.contrib import admin
 from places.models import PlaceTextAppearance, Place
 
 
-@admin.register(Place)
-class PlaceAdmin(admin.ModelAdmin):
-    list_display = (
-        'key', 'altered_names_list',
-    )
-
-    def get_queryset(self, request):
-        return super().get_queryset(request).prefetch_related('altered_names')
-
-    def altered_names_list(self, obj):
-        return ", ".join(o.name for o in obj.altered_names.all())
-
-
-class PlaceTextAppearanceInline(admin.TabularInline):
+class PlaceTextAppearanceInlineBase(admin.StackedInline):
     model = PlaceTextAppearance
-    fields = (
-        'place',
+    fields = [
         'role',
-    )
+        'appears_as',
+        'context',
+    ]
+    readonly_fields = ('appears_as', 'context',)
 
     def get_extra(self, request, obj=None, **kwargs):
         return 0
+
+
+class PlaceTextAppearanceInlineForPlace(PlaceTextAppearanceInlineBase):
+    fields = ['text'].extend(PlaceTextAppearanceInlineBase.fields)
+
+
+class PlaceTextAppearanceInlineForText(PlaceTextAppearanceInlineBase):
+    fields = ['place'].extend(PlaceTextAppearanceInlineBase.fields)
+
+
+@admin.register(Place)
+class PlaceAdmin(admin.ModelAdmin):
+    list_display = (
+        'key', 'altered_names',
+    )
+
+    inlines = (PlaceTextAppearanceInlineForPlace,)
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related('text_appearances')

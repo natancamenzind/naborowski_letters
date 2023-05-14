@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from persons.admin import PersonTextAppearanceInline
-from places.admin import PlaceTextAppearanceInline
+from persons.admin import PersonTextAppearanceInlineForText
+from places.admin import PlaceTextAppearanceInlineForText
 from texts.forms import XmlFileForm
 from texts.models import Text
 
@@ -28,7 +28,7 @@ class TextAdmin(admin.ModelAdmin):
         }),
     )
     readonly_fields = ('created_at',)
-    inlines = (PersonTextAppearanceInline, PlaceTextAppearanceInline)
+    inlines = (PersonTextAppearanceInlineForText, PlaceTextAppearanceInlineForText)
 
     def get_form(self, request, obj=None, change=False, **kwargs):
         return super().get_form(request, obj, change, **kwargs) if obj else XmlFileForm

@@ -3,8 +3,10 @@ from typing import Optional
 from bs4 import BeautifulSoup
 
 from places.constants import PlaceRole
+from places.data_classes import PlaceAppearance
 from places.models import Place, PlaceTextAppearance
 from texts.models import Text
+from texts.utils import extract_context_sentence
 
 
 class PlacesXMLParser:
@@ -35,8 +37,10 @@ class PlacesXMLParser:
         for mention in self.mentions:
             PlaceTextAppearance.objects.create(
                 text=text,
-                place=mention,
                 role=PlaceRole.MENTION,
+                place=mention.place,
+                appears_as=mention.appears_as,
+                context=mention.context,
             )
 
     def get_send_from(self) -> Optional[Place]:
@@ -45,10 +49,18 @@ class PlacesXMLParser:
     def get_received_in(self) -> Optional[Place]:
         return self._get_place(PlaceRole.RECEIVED_IN)
 
-    def get_mentions(self):
+    def get_mentions(self) -> list[PlaceAppearance]:
         all_places = self.soup.select('text placeName')
         return [
-            self._parse_place(place_data)
+            PlaceAppearance(
+                place=self._parse_place(place_data),
+                appears_as=place_data.get_text(),
+                context=extract_context_sentence(
+                    self.soup,
+                    'placeName',
+                    place_data.attrs.get('key'),
+                ),
+            )
             for place_data in all_places
         ]
 
@@ -60,8 +72,6 @@ class PlacesXMLParser:
                 'geonames_reference': place_data.attrs.get('ref', None),
             }
         )
-        if place_data.get_text() and place_data.get_text() != key:
-            place.altered_names.add(place_data.get_text())
         return place
 
     def _get_place(self, role) -> Optional[Place]:

@@ -1,12 +1,10 @@
 from django.db import models
-from taggit.managers import TaggableManager
 
 from places.constants import PlaceRole
 
 
 class Place(models.Model):
     key = models.CharField('klucz', max_length=128, unique=True, db_index=True)
-    altered_names = TaggableManager('występuje jako')
     geonames_reference = models.URLField('odnośnik do geonames', blank=True, null=True)
     appearance = models.ManyToManyField('texts.Text', through='PlaceTextAppearance')
 
@@ -16,6 +14,10 @@ class Place(models.Model):
 
     def __str__(self) -> str:
         return self.key
+
+    @property
+    def altered_names(self):
+        return ', '.join(set(self.text_appearances.values_list('appears_as', flat=True)))
 
 
 class PlaceTextAppearance(models.Model):
@@ -32,6 +34,16 @@ class PlaceTextAppearance(models.Model):
         related_name='text_appearances',
     )
     role = models.PositiveSmallIntegerField(choices=PlaceRole.choices)
+    appears_as = models.CharField(
+        'występuje jako',
+        default='',
+        max_length=100,
+    )
+    context = models.CharField(
+        'kontekst wystąpienia',
+        default='',
+        max_length=500,
+    )
 
     class Meta:
         verbose_name = 'Miejsce wystepujące w tekście'
@@ -39,4 +51,3 @@ class PlaceTextAppearance(models.Model):
 
     def __str__(self) -> str:
         return f'{self.place.key} w "{self.text.title}" ({self.get_role_display()})'
-

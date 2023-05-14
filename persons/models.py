@@ -1,14 +1,12 @@
 from django.db import models
-from taggit.managers import TaggableManager
 
 from persons.constants import PersonRole
 
 
 class Person(models.Model):
     key = models.CharField('klucz', max_length=50, unique=True)
-    first_name = models.CharField('imie', max_length=50, default='', blank=True)
-    last_name = models.CharField('naziwsko', max_length=50, default='', blank=True)
-    altered_names = TaggableManager('inne imiona')
+    first_name = models.CharField('imię', max_length=50, default='', blank=True)
+    last_name = models.CharField('nazwisko', max_length=50, default='', blank=True)
     date_of_birth_start = models.DateField(
         'data narodzin, początek',
         null=True,
@@ -37,6 +35,10 @@ class Person(models.Model):
     def __str__(self) -> str:
         return self.key
 
+    @property
+    def altered_names(self):
+        return ', '.join(set(self.text_appearances.values_list('appears_as', flat=True)))
+
 
 class PersonTextAppearance(models.Model):
     text = models.ForeignKey(
@@ -51,7 +53,20 @@ class PersonTextAppearance(models.Model):
         verbose_name='osoba',
         related_name='text_appearances',
     )
-    role = models.PositiveSmallIntegerField(choices=PersonRole.choices)
+    role = models.PositiveSmallIntegerField(
+        'rola',
+        choices=PersonRole.choices,
+    )
+    appears_as = models.CharField(
+        'występuje jako',
+        default='',
+        max_length=100,
+    )
+    context = models.CharField(
+        'kontekst wystąpienia',
+        default='',
+        max_length=500,
+    )
 
     class Meta:
         verbose_name = 'Osoba wystepujące w tekście'
