@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'texts',
 
     'taggit',
+    'storages',
 ]
 
 MIDDLEWARE = [
