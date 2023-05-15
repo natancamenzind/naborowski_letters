@@ -4,7 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+"boto3" = "*"
 django = "==4.1"
+django-storages = "*"
 psycopg2 = "*"
 flake8 = "*"
 django-environ = "*"

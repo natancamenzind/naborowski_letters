@@ -40,5 +40,10 @@ class PersonAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related('text_appearances')
 
+    @admin.display(description='Występuje jako')
+    def altered_names(self, obj):
+        return obj.altered_names
+
+
 
 
