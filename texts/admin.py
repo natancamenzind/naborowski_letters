@@ -8,11 +8,11 @@ from texts.models import Text
 
 @admin.register(Text)
 class TextAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created_at', 'file', 'author', 'receiver')
+    list_display = ('title', 'send_date', 'file', 'author', 'receiver')
     list_filter = (
         'language',
     )
-    search_fields = ('title',)
+    search_fields = ('title', 'content')
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
@@ -21,11 +21,15 @@ class TextAdmin(admin.ModelAdmin):
     )
     fieldsets = (
         ('Dane podstawowe', {
-            'fields': ('title', 'file', 'created_at')
+            'fields': ('title', 'file', 'send_date', 'created_at')
         }),
         ('Metadane', {
            'fields': ('publication_statement', 'source_description', 'language')
         }),
+        ('Treść', {
+            'classes': ('collapse',),
+            'fields': ('content',),
+        })
     )
     readonly_fields = ('created_at',)
     inlines = (PersonTextAppearanceInlineForText, PlaceTextAppearanceInlineForText)

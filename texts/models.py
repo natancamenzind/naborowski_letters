@@ -16,6 +16,8 @@ class Text(models.Model):
     publication_statement = models.CharField(max_length=1000)
     source_description = models.CharField('opis źródła', max_length=1000)
     language = models.CharField('język', choices=Languages.choices, max_length=3)
+    send_date = models.DateField('data wysłania', null=True, blank=True)
+    content = models.TextField('treść', default='')
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='data utworzenia')
 

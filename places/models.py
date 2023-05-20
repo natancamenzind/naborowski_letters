@@ -30,10 +30,13 @@ class PlaceTextAppearance(models.Model):
     place = models.ForeignKey(
         Place,
         on_delete=models.CASCADE,
-        verbose_name='osoba',
+        verbose_name='miejsce',
         related_name='text_appearances',
     )
-    role = models.PositiveSmallIntegerField(choices=PlaceRole.choices)
+    role = models.PositiveSmallIntegerField(
+        verbose_name='rola',
+        choices=PlaceRole.choices,
+    )
     appears_as = models.CharField(
         'występuje jako',
         default='',
